@@ -64,7 +64,7 @@ header {
   object-fit: contain;
   border-radius: 5px;
   background: #fff;
-  padding: 0.2rem;
+  padding: 0rem;
 }
 
 .brand-title {
@@ -512,7 +512,7 @@ nav {
 .footer-logo {
   width: 110px;
   background: white;
-  padding: 0.9rem;
+  padding: 0rem;
   border-radius: 12px;
 }
 
