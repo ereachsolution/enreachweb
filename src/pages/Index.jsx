@@ -103,7 +103,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Services S</ul>ection */}
+      {/* Services section */}
       <section id="services" className="services">
         <div className="container">
           <h2>Our Services</h2>
@@ -112,7 +112,7 @@ const Index = () => {
               <div className="service-card" key={idx}>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
-                <a className="view-more" tabIndex={0}>View More</a>
+                {/* <a className="view-more" tabIndex={0}>View More</a> */}
               </div>
             ))}
           </div>
