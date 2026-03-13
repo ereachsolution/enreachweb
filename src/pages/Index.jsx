@@ -173,7 +173,7 @@ const Index = () => {
         <div className="container">
           <h2>Contact Us</h2>
           <p>Whether you're facing a cyber incident or exploring a career in cyber forensics, our expert team is here to guide and support you every step of the way.</p>
-          <form className="contact-form" onSubmit={handleContactSubmit} noValidate>
+          <form className="contact-form" onSubmit={handleContactSubmit}>
             <div className="contact-form-row">
               <input
                 type="text"
@@ -224,15 +224,15 @@ const Index = () => {
               <img src="/images/dp(cc).png" alt="Delhi Police Cyber Crime" />
               <img src="/images/it.png" alt="Income Tax" />
               <img src="/images/delhi-police.png" alt="Delhi Police" />
-              <img src="/images/dggi.png" alt="DGGI" />
-              <img src="/images/dri.png" alt="DRI" />
+              <img src="/images/dggi.png" alt="Directorate General of GST Intelligence" />
+              <img src="/images/dri.png" alt="Directorate of Revenue Intelligence" />
               {/* duplicate set for infinite scroll effect */}
               <img src="/images/sifo.png" alt="Serious Fraud Investigation Office" />
               <img src="/images/dp(cc).png" alt="Delhi Police Cyber Crime" />
               <img src="/images/it.png" alt="Income Tax" />
               <img src="/images/delhi-police.png" alt="Delhi Police" />
-              <img src="/images/dggi.png" alt="DGGI" />
-              <img src="/images/dri.png" alt="DRI" />
+              <img src="/images/dggi.png" alt="Directorate General of GST Intelligence" />
+              <img src="/images/dri.png" alt="Directorate of Revenue Intelligence" />
             </div>
           </div>
         </div>
