@@ -20,7 +20,7 @@ const About = () => {
           About Enreach Solution
         </h1>
         <p style={{ fontSize: "1.2rem", maxWidth: 700, margin: "0 auto", opacity: 0.85 }}>
-          Delhi&apos;s leading cyber forensic and digital investigation firm — trusted by
+          Delhi's leading cyber forensic and digital investigation firm — trusted by
           law enforcement, legal professionals, and businesses alike.
         </p>
       </section>
