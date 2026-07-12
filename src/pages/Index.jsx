@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from 'react-router-dom';
-import logo from "../assets/logo.png";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import LetterGlitch from "../components/LetterGlitch";
 
 
@@ -25,18 +26,10 @@ const services = [
 const Index = () => {
   const [showAllServices, setShowAllServices] = useState(false);
   const [articles, setArticles] = useState([]);
+  const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
+  const [formStatus, setFormStatus] = useState("");
 
-  useEffect(() => {
-    const btn = document.getElementById("hamburger");
-    const nav = document.getElementById("nav-menu");
-    const toggle = () => nav.classList.toggle("open");
-    if (btn && nav) {
-      btn.addEventListener("click", toggle);
-      return () => btn.removeEventListener("click", toggle);
-    }
-  }, []);
-
-  useEffect(() => {
+  React.useEffect(() => {
     fetch('/data/articles.json')
       .then(res => res.json())
       .then(data => setArticles(data.slice(0, 3)));
@@ -44,32 +37,25 @@ const Index = () => {
 
   const visibleServices = showAllServices ? services : services.slice(0, 4);
 
+  const handleContactChange = (e) => {
+    setContactForm({ ...contactForm, [e.target.name]: e.target.value });
+  };
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    const { name, email, message } = contactForm;
+    if (!name || !email || !message) {
+      setFormStatus("Please fill in all fields.");
+      return;
+    }
+    const mailtoLink = `mailto:hr@enreachsolution.com?subject=Enquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+    window.location.href = mailtoLink;
+    setFormStatus("Opening your email client...");
+  };
+
   return (
     <>
-      {/* Header */}
-      <header>
-        <div className="container header-flex">
-          <div className="logo-area">
-            <div className="logo-area-row">
-              <img src={logo} alt="Enreach Solution Logo" className="logo" />
-              <span className="brand-title">ENREACH SOLUTION</span>
-            </div>
-          </div>
-          <nav>
-            <button id="hamburger" className="hamburger" aria-label="Toggle menu">
-              <span></span><span></span><span></span>
-            </button>
-            <ul className="nav-links" id="nav-menu">
-              <li><a href="#about">About Us</a></li>
-              <li><a href="#services">Services</a></li>
-              <li><a href="#why-choose-us">Why Choose Us</a></li>
-              <li><a href="#team">Our Team</a></li>
-              <li><a href="#contact">Contact</a></li>
-              <li><Link to="/articles">Articles</Link></li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+      <Navbar />
 
       {/* Hero Section */}
       <section className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
@@ -98,7 +84,25 @@ const Index = () => {
             />
           </div>
           <div className="about-card" style={{ flex: "2 1 400px", minWidth: 0 }}>
-            <p><mark>cybercrime</mark>, <mark>intellectual property theft</mark>, and At our cyber forensics firm, we specialize in investigating complex digital crimes such as <mark>financial fraud</mark>. Our team of certified experts utilizes cutting-edge tools and methodologies to uncover hidden evidence, trace digital footprints, and provide court-admissible reports. We also handle cases involving <mark>data breaches</mark>, <mark>malware analysis</mark>, <mark>insider threats</mark>, and <mark>digital espionage</mark>. Whether working with corporations, law enforcement, or legal professionals, we deliver <mark>reliable</mark>, <mark>discreet</mark>, and <mark>timely</mark> results, ensuring <mark>accuracy</mark>, <mark>integrity</mark>, and <mark>professionalism</mark> in every investigation. Trust us to safeguard your digital interests and uncover the truth behind any cyber incident.<mark>Client confidentiality</mark> is our top priority, and we maintain the highest standards of data security throughout the process. With a proven track record of successful investigations, we are your trusted partner in navigating today’s complex digital landscape.</p>
+            <p>
+              At our cyber forensics firm, we specialize in investigating complex digital crimes such as{" "}
+              <mark>cybercrime</mark>, <mark>intellectual property theft</mark>, and{" "}
+              <mark>financial fraud</mark>. Our team of certified experts utilizes cutting-edge tools and
+              methodologies to uncover hidden evidence, trace digital footprints, and provide
+              court-admissible reports. We also handle cases involving <mark>data breaches</mark>,{" "}
+              <mark>malware analysis</mark>, <mark>insider threats</mark>, and{" "}
+              <mark>digital espionage</mark>. Whether working with corporations, law enforcement, or
+              legal professionals, we deliver <mark>reliable</mark>, <mark>discreet</mark>, and{" "}
+              <mark>timely</mark> results, ensuring <mark>accuracy</mark>, <mark>integrity</mark>, and{" "}
+              <mark>professionalism</mark> in every investigation.{" "}
+              <mark>Client confidentiality</mark> is our top priority, and we maintain the highest
+              standards of data security throughout the process. With a proven track record of
+              successful investigations, we are your trusted partner in navigating today's
+              complex digital landscape.
+            </p>
+            <div style={{ marginTop: "1.5rem" }}>
+              <Link to="/about" className="btn">Learn More About Us</Link>
+            </div>
           </div>
         </div>
       </section>
@@ -112,7 +116,6 @@ const Index = () => {
               <div className="service-card" key={idx}>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
-                {/* <a className="view-more" tabIndex={0}>View More</a> */}
               </div>
             ))}
           </div>
@@ -165,112 +168,77 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Team Section */}
-      {/* <section id="team" className="team-section">
-        <h2>Our Team</h2>
-        <br />
-        <div className="team-grid">
-          {[
-            {
-              name: "Gaurav Kumar",
-              role: "Cyber Fraud Investigator",
-              img: "https://curieoncology.com.sg/wp-content/uploads/21-214439_free-high-quality-person-icon-default-profile-picture.png"
-            },
-            {
-              name: "Shubham Saini",
-              role: "Sr.Digital Forensic Examiner",
-              img: "https://curieoncology.com.sg/wp-content/uploads/21-214439_free-high-quality-person-icon-default-profile-picture.png"
-            },
-            {
-              name: "Varun Saini",
-              role: "Sr. Digital Forensic Examiner",
-              img: "https://curieoncology.com.sg/wp-content/uploads/21-214439_free-high-quality-person-icon-default-profile-picture.png"
-            },
-            {
-              name: "Piyush Rawat",
-              role: "Sr. Digital Forensic Examiner",
-                img: "https://curieoncology.com.sg/wp-content/uploads/21-214439_free-high-quality-person-icon-default-profile-picture.png"
-              },
-              {
-                name: "Suraj Singh",
-                role: "Digital Forensic Expert & Specialist in Hardware",
-              img: "https://curieoncology.com.sg/wp-content/uploads/21-214439_free-high-quality-person-icon-default-profile-picture.png"
-            },
-            {
-              name: "Shivansh Bansal",
-              role: "Digital Forensic Examiner & Software developer",
-              img: "https://curieoncology.com.sg/wp-content/uploads/21-214439_free-high-quality-person-icon-default-profile-picture.png"
-            }
-
-          
-          ].map(member => (
-            <div className="team-card" key={member.name}>
-              <img src={member.img} alt={member.name} className="team-photo" />
-              <h3>{member.name}</h3>
-              <p>{member.role}</p>
-            </div>
-          ))}
-        </div>
-      </section> */}
-
       {/* Contact Section */}
       <section id="contact" className="contact">
         <div className="container">
           <h2>Contact Us</h2>
-          <p>Whether you’re facing a cyber incident or exploring a career in cyber forensics, our expert team is here to guide and support you every step of the way.</p>
-          <div style={{ display: "flex", alignItems: "center", gap: 16, justifyContent: "center", margin: "16px 0" }}>
-            <a href="mailto:hr@enreachsolution.com" className="btn">Email Us</a>
-            {/* <span style={{ fontWeight: 700, color: "#555" }}>OR</span>
-            <a href="tel:+91" className="btn">Call Us</a> */}
+          <p>Whether you're facing a cyber incident or exploring a career in cyber forensics, our expert team is here to guide and support you every step of the way.</p>
+          <form className="contact-form" onSubmit={handleContactSubmit}>
+            <div className="contact-form-row">
+              <input
+                type="text"
+                name="name"
+                placeholder="Your Name"
+                value={contactForm.name}
+                onChange={handleContactChange}
+                className="contact-input"
+                required
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Your Email"
+                value={contactForm.email}
+                onChange={handleContactChange}
+                className="contact-input"
+                required
+              />
+            </div>
+            <textarea
+              name="message"
+              placeholder="How can we help you?"
+              value={contactForm.message}
+              onChange={handleContactChange}
+              className="contact-textarea"
+              rows={5}
+              required
+            />
+            {formStatus && <p className="contact-form-status">{formStatus}</p>}
+            <button type="submit" className="btn">Send Message</button>
+          </form>
+          <div style={{ marginTop: "1.5rem" }}>
+            <a href="mailto:hr@enreachsolution.com" style={{ color: "#e60000", fontWeight: 600 }}>
+              ✉️ hr@enreachsolution.com
+            </a>
           </div>
         </div>
       </section>
 
       {/* Law Enforcement Partners Section */}
-<section className="law-enforcement">
-  <div className="container">
-    <h2 className="section-heading">Our Association with Law Enforcement Agencies</h2>
-    <div className="logo-slider">
-      <div className="logo-track">
-       <img src="/images/sifo.png" alt="SERIOUS FRAUD INVESTIGATION OFFICE" />
-        <img src="/images/dp(cc).png" alt="delhi police cyber crime" />
-        <img src="/images/it.png" alt="income tax" />
-        <img src="/images/delhi-police.png" alt="Delhi Police" />
-        <img src="/images/dggi.png" alt="dggi" />
-        <img src="/images/dri.png" alt="dri" />
-        {/* duplicate set for infinite scroll effect */}
-        <img src="/images/sifo.png" alt="SERIOUS FRAUD INVESTIGATION OFFICE" />
-        <img src="/images/dp(cc).png" alt="delhi police cyber crime" />
-        <img src="/images/it.png" alt="income tax" />
-        <img src="/images/delhi-police.png" alt="Delhi Police" />
-        <img src="/images/dggi.png" alt="dggi" />
-        <img src="/images/dri.png" alt="dri" />
-      </div>
-    </div>
-  </div>
-</section>
-
-
-      {/* Footer */}
-      <footer className="main-footer">
-        <div className="footer-container">
-          <div className="footer-col logo-about">
-            <img src={logo} alt="Enreach Solution Logo" className="footer-logo" />
-            <p className="footer-about">ENREACH SOLUTION</p>
-          </div>
-          <div className="footer-col contact-info">
-            <h3>Contact Info</h3>
-            <ul>
-              <li>📍 Astralis Supernova, Noida</li>
-              {/* <li>📞 +918433028713 </li> */}
-              <li>✉️ hr@enreachsolution.com</li>
-            </ul>
+      <section className="law-enforcement">
+        <div className="container">
+          <h2 className="section-heading">Our Association with Law Enforcement Agencies</h2>
+          <div className="logo-slider">
+            <div className="logo-track">
+              <img src="/images/sifo.png" alt="Serious Fraud Investigation Office" />
+              <img src="/images/dp(cc).png" alt="Delhi Police Cyber Crime" />
+              <img src="/images/it.png" alt="Income Tax" />
+              <img src="/images/delhi-police.png" alt="Delhi Police" />
+              <img src="/images/dggi.png" alt="Directorate General of GST Intelligence" />
+              <img src="/images/dri.png" alt="Directorate of Revenue Intelligence" />
+              {/* duplicate set for infinite scroll effect */}
+              <img src="/images/sifo.png" alt="Serious Fraud Investigation Office" />
+              <img src="/images/dp(cc).png" alt="Delhi Police Cyber Crime" />
+              <img src="/images/it.png" alt="Income Tax" />
+              <img src="/images/delhi-police.png" alt="Delhi Police" />
+              <img src="/images/dggi.png" alt="Directorate General of GST Intelligence" />
+              <img src="/images/dri.png" alt="Directorate of Revenue Intelligence" />
+            </div>
           </div>
         </div>
-        <div className="footer-bottom">
-          &copy; 2025 ENREACH SOLUTION. All Rights Reserved. <br />
-        </div>
-      </footer>
+      </section>
+
+      <Footer />
     </>
   );
 };
